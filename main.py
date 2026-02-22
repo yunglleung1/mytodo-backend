@@ -76,7 +76,3 @@ def update_task(task_id: int, task: dict = Body(...)):
  tasks_query.execute("UPDATE tasks SET title = ? WHERE id = ?", (new_title, task_id))
  tasks_db.commit()
  return {"message": f"Task {task_id} updated!", "new_title": new_title}
-
-if __name__ == "__main__":
- import uvicorn
- uvicorn.run("main:api", host="0.0.0.0", port=8000, reload=True)
