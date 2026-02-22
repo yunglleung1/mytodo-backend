@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+*.swp
+
+# Node.js / npm
+node_modules/
+.npm
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Build folders
+dist/
+build/
+target/          # for Java/Maven/Rust/etc.
+
+# Files
+code.py
+tasks.db
