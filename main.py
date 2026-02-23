@@ -79,10 +79,19 @@ def update_task(task_id: int, task: dict = Body(...)):
  return {"message": f"Task {task_id} updated!", "new_title": new_title}
 
 # Resolve CORS
+# List exact allowed origins — avoid "*" if using credentials/cookies
+origins = [
+    "https://*.vercel.app",             # optional: covers preview branches
+    "http://localhost:3000",            # keep for local dev
+    "http://localhost:5173",            # if using Vite
+]
+
 api.add_middleware(
- CORSMiddleware,
- allow_origins=https://mytodo-l044z5hzt-yung-l-leungs-projects.vercel.app/"], # ← whitelist your frontend
- allow_credentials=True,
- allow_methods=GET", "POST", "PUT", "DELETE"],
- allow_headers=*"], # ← or list specific headers later
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,             # set False if you don't use cookies/auth
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+    expose_headers=["*"],               # if you need custom response headers
+    max_age=600,                        # cache preflight responses
 )
