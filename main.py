@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Body
 import sqlite3
+from fastapi.middleware.cors import CORSMiddleware
 
 api = FastAPI()
 
@@ -76,3 +77,12 @@ def update_task(task_id: int, task: dict = Body(...)):
  tasks_query.execute("UPDATE tasks SET title = ? WHERE id = ?", (new_title, task_id))
  tasks_db.commit()
  return {"message": f"Task {task_id} updated!", "new_title": new_title}
+
+# Resolve CORS
+api.add_middleware(
+ CORSMiddleware,
+ allow_origins=https://myapp.vercel.app"], # ← whitelist your frontend
+ allow_credentials=True,
+ allow_methods=GET", "POST", "PUT", "DELETE"],
+ allow_headers=*"], # ← or list specific headers later
+)
