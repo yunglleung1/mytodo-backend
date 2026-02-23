@@ -81,7 +81,7 @@ def update_task(task_id: int, task: dict = Body(...)):
 # Resolve CORS
 api.add_middleware(
  CORSMiddleware,
- allow_origins=https://myapp.vercel.app"], # ← whitelist your frontend
+ allow_origins=https://mytodo-l044z5hzt-yung-l-leungs-projects.vercel.app/"], # ← whitelist your frontend
  allow_credentials=True,
  allow_methods=GET", "POST", "PUT", "DELETE"],
  allow_headers=*"], # ← or list specific headers later
