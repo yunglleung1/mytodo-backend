@@ -4,6 +4,24 @@ from fastapi.middleware.cors import CORSMiddleware
 
 api = FastAPI()
 
+# Resolve CORS
+# List exact allowed origins — avoid "*" if using credentials/cookies
+origins = [
+    "https://*.vercel.app",             # optional: covers preview branches
+    "http://localhost:3000",            # keep for local dev
+    "http://localhost:5173",            # if using Vite
+]
+
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,             # set False if you don't use cookies/auth
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+    expose_headers=["*"],               # if you need custom response headers
+    max_age=600,                        # cache preflight responses
+)
+
 enable_multi_threaded = {"check_same_thread": False}
 tasks_db = sqlite3.connect("tasks.db", **enable_multi_threaded)
 # tasks_db = sqlite3.connect("tasks.db", check_same_thread=False)
@@ -77,21 +95,3 @@ def update_task(task_id: int, task: dict = Body(...)):
  tasks_query.execute("UPDATE tasks SET title = ? WHERE id = ?", (new_title, task_id))
  tasks_db.commit()
  return {"message": f"Task {task_id} updated!", "new_title": new_title}
-
-# Resolve CORS
-# List exact allowed origins — avoid "*" if using credentials/cookies
-origins = [
-    "https://*.vercel.app",             # optional: covers preview branches
-    "http://localhost:3000",            # keep for local dev
-    "http://localhost:5173",            # if using Vite
-]
-
-api.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,             # set False if you don't use cookies/auth
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
-    expose_headers=["*"],               # if you need custom response headers
-    max_age=600,                        # cache preflight responses
-)
