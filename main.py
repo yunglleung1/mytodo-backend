@@ -70,7 +70,25 @@ def create_task(task: dict = Body(...)):
  
  tasks_query.execute("INSERT INTO tasks (title) VALUES (?)", (title,))
  tasks_db.commit()
- return {"message": "Task created!", "new_task": {"title": title}}
+
+ # Get ID SQLite just created
+ tasks_query.execute("SELECT last_insert_rowid()")
+ new_id = tasks_query.fetchone()[0]
+
+ return {
+    "message": "Task created!", 
+    "new_task": 
+    {
+        "id": new_id,
+        "title": title,
+    }
+}
+
+@api.delete("/tasks/all")
+def delete_all():
+ tasks_query.execute("DELETE FROM tasks")
+ tasks_db.commit()
+ return {"message": "All tasks trashed! Undo if you need."}
 
 @api.delete("/tasks/{task_id}")
 def delete_task(task_id: int):
