@@ -7,7 +7,7 @@ api = FastAPI()
 # Resolve CORS
 # List exact allowed origins — avoid "*" if using credentials/cookies
 origins = [
-    "https://mytodo-sepia.vercel.app/",
+    "https://mytodo-sepia.vercel.app",
     "https://*.vercel.app",             # optional: covers preview branches
     "http://localhost:3000",            # keep for local dev
     "http://localhost:5173",            # if using Vite
